@@ -39,7 +39,11 @@ class App(QWidget):
         #if mod_present == False:
         carset_csv = os.path.isfile('series/' + self.currentMod + '/cars/carset.csv')
         if carset_csv != True:
-            f = open('series/' + self.currentMod + '/cars/carset.csv', 'w+')
+            try:
+                f = open('series/' + self.currentMod + '/cars/carset.csv', 'w+')
+            except:
+                
+                f = open('series/' + self.currentMod + '/cars/carset.csv', 'w+')
             f.write("default," + self.selected_car)
             f.close()
 
