@@ -42,13 +42,6 @@ class App(QWidget):
             f = open('series/' + self.currentMod + '/cars/carset.csv', 'w+')
             f.write("default," + self.selected_car)
             f.close()
-        """with open('series/' + self.currentMod + '/cars/carset.csv', newline='') as f:
-            reader = csv.reader(f)
-            currentCarset = next(reader)
-            if len(currentCarset) > 1:
-                currentCarFile = currentCarset[1]
-                if currentCarFile != self.selected_car:
-                    #self.selectCarfile(currentCarFile)"""
 
         self.listFile = False
         self.initUI()
@@ -88,11 +81,6 @@ class App(QWidget):
                     self.carsetList.addItem(carset[5:])
                     self.carsetList.setEnabled(True)
         self.carsetList.activated[str].connect(self.selectCarset)
-
-        #self.updateCarList()
-        #self.selectedCarList.activated[str].connect(self.selectCarfile)
-        #self.carsetList.activated[str].connect(self.selectCarfile)
-
 
         trackLabel = QLabel("Tracks:")
         currentTrack = os.listdir("tracks")
@@ -215,8 +203,6 @@ class App(QWidget):
         installedModsLabel = QLabel(str(len(installedMods) + 1) + " series installed")
         installedTracksLabel = QLabel(str(len(installedTracks) + 1) + " tracks installed")
 
-        #selectedCarLabel = QLabel("Selected Car: ")
-
         overviewBox = QHBoxLayout()
         overviewBox.addWidget(installedModsLabel)
         overviewBox.addWidget(installedTracksLabel)
@@ -232,8 +218,6 @@ class App(QWidget):
         
         modsBox.addWidget(carsetLabel)
         modsBox.addWidget(self.carsetList)
-        #modsBox.addWidget(selectedCarLabel)
-        #modsBox.addWidget(self.selectedCarList)
 
         modsBox.addWidget(trackLabel)
         modsBox.addWidget(trackList)
@@ -277,7 +261,6 @@ class App(QWidget):
         shutil.move("mods/series/" + text, "series/")
         currentMod = os.listdir("series")[0]
         self.carsetList.clear()
-        #self.selectedCarList.clear()
         seriesDir = "series/" + text + "/"
         installedCarsets = os.listdir(seriesDir)
         if len(installedCarsets) == 1:
@@ -323,47 +306,6 @@ class App(QWidget):
             f = open('series/' + currentMod + '/cars/carset.csv', 'w+')
             f.write(text + ",")
             f.close()
-        #self.selectedCarList.clear()
-        #self.updateCarList()
-
-    """def selectCarfile(self, text):
-        self.selected_car = text
-        mod_present = False
-        with open("players/" + self.selectedPlayer + "/player.ini", "r") as player_ini:
-            player_data = player_ini.readlines()
-            for i in range(len(player_data)):
-                line = player_data[i]
-                if line.rstrip() == "[" + self.currentMod + "]":
-                    mod_present = True
-                    player_data[i + 1] = "SelectedCarFile=" + text + "\n"
-                    player_data[i + 2] = "SelectedCarFileMulti=" + text + "\n"
-        
-        if mod_present == False:
-            with open("players/" + self.selectedPlayer + "/player.ini", "a") as player_ini:
-                player_ini.write("\n[" + self.currentMod + "]\n")
-                player_ini.write("SelectedCarFile=" + text + "\n")
-                player_ini.write("SelectedCarFileMulti=" + text + "\n")
-        else:
-            with open("players/" + self.selectedPlayer + "/player.ini", "w") as player_ini: 
-                player_ini.writelines(player_data)
-        r = csv.reader(open('series/' + self.currentMod + '/cars/carset.csv'))
-        lines = list(r)
-        lines[0][1] = text
-        writer = csv.writer(open('series/' + self.currentMod + '/cars/carset.csv', 'w'))
-        writer.writerows(lines)
-        
-
-
-    def updateCarList(self):
-        with open('series/' + self.currentMod + '/cars/carset.csv', newline='') as f:
-            reader = csv.reader(f)
-            self.selected_car = next(reader)[1]
-            if self.selected_car != "":
-                self.selectedCarList.addItem(self.selected_car)  
-
-        for car in os.listdir("series/" + self.currentMod + "/cars/"):
-            if car[-4:] == ".car" and car != self.selected_car:
-                self.selectedCarList.addItem(car)"""
 
     def selectTrack(self, text):
         currentTrack = os.listdir("tracks")
